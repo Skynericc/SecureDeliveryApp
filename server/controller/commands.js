@@ -43,12 +43,27 @@ const createCommand = async (req, res, next) => {
     }
 };
 
-const getCommand = (req, res, next) => {
+const getCommandById = (req, res, next) => {
   Command.findById(req.params.id).then((command) => {
 		console.log('GET Retrieved ID: ' + command._id);
 		res.format({
 			json: () => {
 				res.json(command);
+			}
+		});
+	}).catch((error) => {
+		// transmit the error to the next middleware
+		return next(error);
+	});
+};
+
+const getAllCommands = (_req, res, next) => {
+	// Retrieve all products from Mongo
+	Command.find({}).then((commands) => {
+		res.format({
+			// JSON response will show all users in JSON format
+			json: () => {
+				res.json(commands);
 			}
 		});
 	}).catch((error) => {
@@ -100,4 +115,34 @@ const confirmCommand = async (req, res, next) => {
     }
   };
 
-module.exports = { createCommand, getCommand, confirmCommand };
+const updateCommand = async (req, res, next) => {
+    const { id } = req.params;
+    const updatedCommandData = req.body;
+  
+    try {
+      // Recherchez la commande par son ID
+      const commande = await Command.findById(id);
+  
+      if (!commande) {
+        return res.status(404).json({ error: 'Commande introuvable' });
+      }
+  
+      if (commande.estValide) {
+        return res.status(400).json({ error: 'La commande validée ne peut pas être mise à jour' });
+      }
+  
+      // Mettez à jour les données de la commande avec les nouvelles données
+      Object.assign(commande, updatedCommandData);
+  
+      // Enregistrez la commande mise à jour dans la base de données
+      const updatedCommande = await commande.save();
+  
+      // Envoyez une réponse avec la commande mise à jour
+      res.status(200).json(updatedCommande);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la mise à jour de la commande' });
+    }
+};
+
+module.exports = { createCommand, getCommandById, getAllCommands, confirmCommand, updateCommand };
