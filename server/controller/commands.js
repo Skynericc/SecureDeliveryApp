@@ -4,7 +4,7 @@ const Product = require('../models/product').productModel;
 
 const createCommand = async (req, res, next) => {
     try {
-      const { utilisateur, produits, estValide } = req.body;
+      const { utilisateur, produits, estValide, adresse } = req.body;
       // Check if the products exist by their IDs
       const productIds = produits.map((product) =>
       new mongoose.Types.ObjectId(product.produit));
@@ -28,6 +28,7 @@ const createCommand = async (req, res, next) => {
           quantite: product.quantite, // Quantité demandée
         })),
         estValide: estValide || false, // Utilisez la valeur estValide de la requête ou la valeur par défaut
+        adresse 
       });
   
       // Save the new command to the database
@@ -56,4 +57,47 @@ const getCommand = (req, res, next) => {
 	});
 };
 
-module.exports = { createCommand, getCommand };
+const confirmCommand = async (req, res, next) => {
+    const { id } = req.params;
+  
+    try {
+      // Recherchez la commande par son ID
+      const commande = await Command.findById(id);
+  
+      if (!commande) {
+        return res.status(404).json({ error: 'Commande introuvable' });
+      }
+  
+      if (commande.estValide) {
+        return res.status(400).json({ error: 'La commande a déjà été confirmée' });
+      }
+  
+      // Mettez à jour la commande pour la marquer comme valide
+      commande.estValide = true;
+      await commande.save();
+  
+      // Mettez à jour les quantités des produits dans la base de données
+      await Promise.all(
+        commande.produits.map(async (produit) => {
+          const product = await Product.findById(produit.produit);
+  
+          if (!product) {
+            return res.status(404).json({ error: 'Produit introuvable' });
+          }
+  
+          // Soustrayez la quantité de produit de la commande de la quantité totale du produit
+          product.quant -= produit.quantite;
+  
+          // Sauvegardez la mise à jour du produit dans la base de données
+          await product.save();
+        })
+      );
+  
+      res.status(200).json({ message: 'Commande confirmée avec succès' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la confirmation de la commande' });
+    }
+  };
+
+module.exports = { createCommand, getCommand, confirmCommand };

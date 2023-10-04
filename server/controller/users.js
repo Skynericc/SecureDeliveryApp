@@ -17,7 +17,7 @@ const createUser = (req, res, next) => {
   });
 };
 
-const getUser = (req, res, next) => {
+const getUserById = (req, res, next) => {
   User.findById(req.params.id).then((user) => {
 		console.log('GET Retrieved ID: ' + user._id);
 		res.status(200).json(user);
@@ -27,4 +27,19 @@ const getUser = (req, res, next) => {
 	});
 };
 
-module.exports = { createUser, getUser };
+const getAllUsers = (_req, res, next) => {
+	// Retrieve all users from Mongo
+	User.find({}).then((users) => {
+		res.format({
+			// JSON response will show all users in JSON format
+			json: () => {
+				res.json(users);
+			}
+		});
+	}).catch((error) => {
+		// transmit the error to the next middleware
+		return next(error);
+	});
+};
+
+module.exports = { createUser, getUserById, getAllUsers };

@@ -18,7 +18,7 @@ const createProduct = (req, res, next) => {
   });
 };
 
-const getProduct = (req, res, next) => {
+const getProductById = (req, res, next) => {
   Product.findById(req.params.id).then((product) => {
 		console.log('GET Retrieved ID: ' + product._id);
 		res.format({
@@ -32,4 +32,19 @@ const getProduct = (req, res, next) => {
 	});
 };
 
-module.exports = { createProduct, getProduct };
+const getAllProducts = (_req, res, next) => {
+	// Retrieve all products from Mongo
+	Product.find({}).then((products) => {
+		res.format({
+			// JSON response will show all users in JSON format
+			json: () => {
+				res.json(products);
+			}
+		});
+	}).catch((error) => {
+		// transmit the error to the next middleware
+		return next(error);
+	});
+};
+
+module.exports = { createProduct, getProductById, getAllProducts };
