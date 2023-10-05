@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
-import { useNavigate } from 'react-router-dom';
 import '../../css/dashboard.css';
 function Dashboard({onLogout}) {
   const [products, setProducts] = useState([]);
@@ -82,7 +81,7 @@ function Dashboard({onLogout}) {
           <p>Client : BENKHALDOUN Driss</p>
           <p>Email : driss.benkhaldoun@gmail.com</p>
           {
-            selectedProducts.length!=0?          
+            selectedProducts.length!==0?          
             <>
               <table width='100%'>
                 <thead>
