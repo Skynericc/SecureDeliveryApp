@@ -1,9 +1,13 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // we instantiate express
 const app = express();
+
+//Configuration Cross-Origin Resource Sharing (CORS)
+app.use(cors());
 
 // we define a default port to 3000 or use the environment variable named PORT
 const port = process.env.PORT || 3000;
