@@ -1,0 +1,68 @@
+/* CommandCard.css */
+
+/* Style for the main command card container */
+.command-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 400px; /* Adjust the width as needed */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style for the header of the command card */
+  .command-card-header {
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  /* Style for the content of the command card */
+  .command-card-content {
+    padding: 10px;
+  }
+  
+  /* Style for client information */
+  .client-info {
+    margin-bottom: 10px;
+  }
+  
+  /* Style for product list */
+  .product-list {
+    margin-bottom: 10px;
+  }
+  
+  .product-list h4 {
+    margin-bottom: 5px;
+  }
+  
+  /* Style for each product item in the list */
+  .product-list ul li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for product title */
+  .product-title {
+    font-weight: bold;
+  }
+  
+  /* Style for product quantity */
+  .product-quantity {
+    color: #777;
+  }
+  
+  /* Style for the total price */
+  .total-price {
+    text-align: right;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #007BFF;
+  }
+  

@@ -4,11 +4,12 @@ import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
 import '../../css/dashboard.css';
 function Dashboard({onLogout}) {
+  const user=JSON.parse(localStorage.getItem('user'));
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     // Fetch products from API
-    axios.get('http://localhost:3000/product')
+    axios.get('http://localhost:3000/product?token='+user.token)
       .then((response) => {
         // Set the products in the state
         setProducts(response.data);
@@ -17,28 +18,6 @@ function Dashboard({onLogout}) {
         console.error('Error fetching products:', error);
       });
   }, []);
-  
-  const productA = {
-    id:0,
-    title: 'Example Product A',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 29.99,
-    stockQuantity : 100
-  };
-  const productB = {
-    id:1,
-    title: 'Example Product B',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 28.99,
-    stockQuantity : 10
-  };
-  const productC = {
-    id:2,
-    title: 'Example Product C',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 27.99,
-    stockQuantity : 5
-  };
 
   // State to track selected products and calculate the final price
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -78,8 +57,8 @@ function Dashboard({onLogout}) {
         <div className="sidebar">
           <h2>Order Information</h2>
           {/* put the code to display the prodect that has been chosen and also the final price ... */}
-          <p>Client : BENKHALDOUN Driss</p>
-          <p>Email : driss.benkhaldoun@gmail.com</p>
+          <p>Client : {user.nomComplet}</p>
+          <p>Email : {user.email}</p>
           {
             selectedProducts.length!==0?          
             <>
