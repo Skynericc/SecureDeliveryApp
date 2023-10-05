@@ -34,6 +34,7 @@ function Dashboard({onLogout}) {
 
     // Function to receive data from the child
     const handleAddProduct = (data) => {
+      console.log(JSON.parse(localStorage.getItem('user')));
       const newItem = {
         id: data.id,
         price: data.price,
