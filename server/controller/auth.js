@@ -33,7 +33,10 @@ const login = async (req, res, next) => {
     const token = generateToken(user);
 
     // Envoyez le token en réponse
-    res.status(200).json({ token });
+    const nom = user.nom;
+    const prenom = user.prenom;
+    const nomComplet = nom + " " + prenom;
+    res.status(200).json({ token, email, nomComplet });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erreur d\'authentification' });
