@@ -20,8 +20,8 @@ const login = async (req, res, next) => {
 
     // Vérifiez le mot de passe
     const isValidPassword = bcrypt.compareSync(
-        mdp,
-        user.mdp
+      mdp,
+      user.mdp
     );
     
 

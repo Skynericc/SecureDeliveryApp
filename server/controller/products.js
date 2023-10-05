@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product').productModel;
+const jwt = require('jsonwebtoken');
+const secretKey = require("../config/auth.config").secret;
 
 const createProduct = (req, res, next) => {
   Product.create({
@@ -32,19 +34,36 @@ const getProductById = (req, res, next) => {
 	});
 };
 
-const getAllProducts = (_req, res, next) => {
-	// Retrieve all products from Mongo
-	Product.find({}).then((products) => {
-		res.format({
-			// JSON response will show all users in JSON format
-			json: () => {
+const getAllProducts = (req, res, next) => {
+	const token = req.query.token;
+	// Check if a valid JWT token exists in the query parameters
+	if (!token) {
+		return res.status(401).json({ error: 'No token provided' });
+	}
+
+	jwt.verify(token, secretKey, (err, decoded) => {
+		if (err) {
+		  return res.status(403).json({ error: 'Failed to authenticate token' });
+		}
+	
+		// The token is valid; the decoded object will contain user information
+		const userId = decoded.userId;
+	
+		// Now you can use the userId to fetch user-specific data or proceed as needed
+	
+		// Retrieve all products from Mongo or fetch user-specific data
+		Product.find({})
+		  .then((products) => {
+			res.format({
+			  json: () => {
 				res.json(products);
-			}
-		});
-	}).catch((error) => {
-		// transmit the error to the next middleware
-		return next(error);
-	});
+			  },
+			});
+		  })
+		  .catch((error) => {
+			return next(error);
+		  });
+	  });
 };
 
 module.exports = { createProduct, getProductById, getAllProducts };
