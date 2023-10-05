@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 function Header({onLogout}) {
     const navigate = useNavigate();
     const handleLogoutClick = () => {
-      onLogout();
+      localStorage.removeItem("user");
       navigate('/login'); 
+      window.location.reload();
     };
     return (
         <div className='header'>

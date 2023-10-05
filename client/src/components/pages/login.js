@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/login.css';
 
-function Login({onLogin}) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
 
   const navigate = useNavigate();
   const handleEmailChange = (e) => {
@@ -36,10 +35,10 @@ function Login({onLogin}) {
       "mdp": password,
     })
     .then(response => {
-      if (response.status==200) {
+      if (response.status===200) {
         localStorage.setItem("user", JSON.stringify(response.data));
-        onLogin();
         navigate('/dashboard');         
+        window.location.reload();
       }
     })
     .catch(error => {

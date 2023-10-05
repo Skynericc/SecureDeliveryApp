@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
-import { useNavigate } from 'react-router-dom';
 import '../../css/dashboard.css';
 function Dashboard({onLogout}) {
 
@@ -34,7 +33,6 @@ function Dashboard({onLogout}) {
 
     // Function to receive data from the child
     const handleAddProduct = (data) => {
-      console.log(JSON.parse(localStorage.getItem('user')));
       const newItem = {
         id: data.id,
         price: data.price,
@@ -81,7 +79,7 @@ function Dashboard({onLogout}) {
           <p>Client : BENKHALDOUN Driss</p>
           <p>Email : driss.benkhaldoun@gmail.com</p>
           {
-            selectedProducts.length!=0?          
+            selectedProducts.length!==0?          
             <>
               <table width='100%'>
                 <thead>
