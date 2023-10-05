@@ -1,0 +1,45 @@
+.products-container {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow products to wrap to the next row */
+    justify-content: center;
+    width: 75%;
+  }
+
+  /* dashboard.css */
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align the sidebar to the top */
+    background-color: #f1f1f1;
+    min-height: 100vh;
+}
+  
+  
+.sidebar {
+    width: 25%; /* Adjust the width of the sidebar as needed */
+    min-width: 250px;
+    padding: 16px;
+    background-color: #ffffff; /* Background color of the card */
+    border-radius: 8px; /* Rounded corners for a card effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+    margin-top: 16px;
+    margin-right: 10px;
+}
+
+.header{
+    background-color: black;
+    color: white;
+    padding: 0px 20px;
+}
+
+.header-button{
+    background-color: transparent;
+    color: white;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+span.header-span, p.total{
+    font-weight: bolder;
+    font-style: italic;
+}
