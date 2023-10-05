@@ -8,12 +8,12 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
     addProductToDashboard(data);
   };
 
-  const handleRemoveProduct = (id) => {
+  const handleRemoveProduct = (_id) => {
     // Send data to the parent by calling the function passed as a prop
-    removeProductFromDashboard(id);
+    removeProductFromDashboard(_id);
   };
 
-  const { id, title, description, price,stockQuantity} = product;
+  const { _id, titre, desc, prix,quant} = product;
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
@@ -24,19 +24,19 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
 
   const handleAddToCart = () => {
     setIsAddingToCart(true);
-    handleAddProduct({id,title,price, quantity});
+    handleAddProduct({_id,titre,prix, quantity});
   };
 
   const handleRemoveFromCart = () => {
     setIsAddingToCart(false);
-    handleRemoveProduct(id);
+    handleRemoveProduct(_id);
   };
   
   return (
     <div className="product-widget">
-      <h2>{title}</h2>
-      <p className="description">{description}</p>
-      <p className="price">Price: ${price}</p>
+      <h2>{titre}</h2>
+      <p className="desc">{desc}</p>
+      <p className="prix">prix: ${prix}</p>
       <label htmlFor="quantity">Quantity:</label>
       <input
         type="number"
@@ -44,10 +44,10 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
         value={quantity}
         onChange={handleQuantityChange}
         min="1"
-        max={stockQuantity}
+        max={quant}
         disabled={isAddingToCart}
       />
-      <p className="total-price">Total: ${(price * quantity).toFixed(2)}</p>
+      <p className="total-price">Total: ${(prix * quantity).toFixed(2)}</p>
       {
         isAddingToCart ? ( <button onClick={handleRemoveFromCart} className='red-button'>Remove</button>) 
         : ( <button onClick={handleAddToCart}>Add to Cart</button> )

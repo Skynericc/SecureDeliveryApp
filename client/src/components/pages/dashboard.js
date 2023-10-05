@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
 import { useNavigate } from 'react-router-dom';
 import '../../css/dashboard.css';
 function Dashboard({onLogout}) {
+  const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    // Fetch products from API
+    axios.get('http://localhost:3000/product')
+      .then((response) => {
+        // Set the products in the state
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+  }, []);
   
   const productA = {
     id:0,
@@ -34,23 +47,22 @@ function Dashboard({onLogout}) {
 
     // Function to receive data from the child
     const handleAddProduct = (data) => {
-      console.log(JSON.parse(localStorage.getItem('user')));
       const newItem = {
-        id: data.id,
-        price: data.price,
-        title: data.title,
+        id: data._id,
+        prix: data.prix,
+        title: data.titre,
         quantity: data.quantity,
       };
       setSelectedProducts([...selectedProducts, newItem]);
 
-      setTotal(total + (data.price * data.quantity));
+      setTotal(total + (data.prix * data.quantity));
     };
   
-    const handleRemoveProduct = (id) => {
-      const targetProduct = selectedProducts.find((product) => product.id === id);
-      const updatedList = selectedProducts.filter((item) => item.id !== id);
+    const handleRemoveProduct = (_id) => {
+      const targetProduct = selectedProducts.find((product) => product.id === _id);
+      const updatedList = selectedProducts.filter((item) => item.id !== _id);
       setSelectedProducts(updatedList);
-      setTotal(total - (targetProduct.price * targetProduct.quantity));
+      setTotal(total - (targetProduct.prix * targetProduct.quantity));
     };
 
 
@@ -59,21 +71,10 @@ function Dashboard({onLogout}) {
       <Header onLogout={onLogout}></Header>
       <div className='dashboard-container'>
         <div className='products-container'>
-          <ProductWidget 
-            product={productA} 
-            addProductToDashboard={handleAddProduct} 
-            removeProductFromDashboard={handleRemoveProduct}
-          />
-          <ProductWidget 
-            product={productB} 
-            addProductToDashboard={handleAddProduct} 
-            removeProductFromDashboard={handleRemoveProduct}
-          />
-          <ProductWidget 
-            product={productC} 
-            addProductToDashboard={handleAddProduct} 
-            removeProductFromDashboard={handleRemoveProduct}
-          />
+          {products.map((product) => (
+            <ProductWidget key={product._id} product={product} addProductToDashboard={handleAddProduct} 
+            removeProductFromDashboard={handleRemoveProduct} />
+          ))}
         </div>
         <div className="sidebar">
           <h2>Order Information</h2>
