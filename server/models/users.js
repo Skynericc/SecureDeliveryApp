@@ -17,6 +17,10 @@ const userSchema = new Schema({
 		required: true,
 		unique: true
 	},
+	mdp : {
+		type : String,
+		required: true
+	},
 	addrNum: {
 		type: String
 	},

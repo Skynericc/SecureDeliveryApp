@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var bcrypt = require("bcryptjs");
 const User = require('../models/users').userModel;
 
 const createUser = (req, res, next) => {
@@ -7,6 +8,7 @@ const createUser = (req, res, next) => {
     nom: req.body.nom,
     prenom: req.body.prenom,
     email: req.body.email,
+	mdp: bcrypt.hashSync(req.body.mdp, 8)
   }).then((user) => {
     // user has been created
     console.log('POST created new user: ' + user);

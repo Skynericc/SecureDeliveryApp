@@ -27,6 +27,7 @@ require('./models/db');
 app.use(require('./routes/users'));
 app.use(require('./routes/products'));
 app.use(require('./routes/commands'));
+app.use(require('./routes/auth'));
 
 // simple middleware to catch all non routed pages as 404 and forward to the error middleware
 app.use((req, _res, next) => {
