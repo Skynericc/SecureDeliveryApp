@@ -13,7 +13,7 @@ function App() {
 
   const isAuthenticated = ()=>{
     const user=JSON.parse(localStorage.getItem('user'));
-    if(user!=null) return true;
+    if(user) return true;
     return false;
   }
 
@@ -21,7 +21,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/login" element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Login />} />
+          <Route path="/login" element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Login/>} />
           <Route path="/dashboard" element={isAuthenticated() ? <Dashboard onLogout={handleLogout}/> : <Navigate to="/login" />} />
           <Route path="/admin" element={<Admin onLogout={handleLogout}/>}/>
           <Route index element={<Navigate to="/login" />} />

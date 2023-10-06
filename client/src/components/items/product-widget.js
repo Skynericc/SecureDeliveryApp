@@ -47,7 +47,7 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
         max={quant}
         disabled={isAddingToCart}
       />
-      <p className="total-price">Total: ${(prix * quantity).toFixed(2)}</p>
+      <p className="total-price-product">Total: ${(prix * quantity).toFixed(2)}</p>
       {
         isAddingToCart ? ( <button onClick={handleRemoveFromCart} className='red-button'>Remove</button>) 
         : ( <button onClick={handleAddToCart}>Add to Cart</button> )

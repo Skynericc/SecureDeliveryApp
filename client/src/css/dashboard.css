@@ -43,3 +43,11 @@ span.header-span, p.total{
     font-weight: bolder;
     font-style: italic;
 }
+
+
+#user-address {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }

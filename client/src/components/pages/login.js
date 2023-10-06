@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../css/login.css';
 
 function Login() {
@@ -23,7 +25,7 @@ function Login() {
 
   const handleAdminClick = () => {
     navigate('/admin');
-  }  
+  }
 
   const handleLoginClick = () => {
     // Implement your authentication logic here
@@ -42,8 +44,15 @@ function Login() {
       }
     })
     .catch(error => {
-      alert('Authentication failed. Please check your credentials.');
+      showLoginErrorSnackbar();
     });
+  };
+
+  const showLoginErrorSnackbar = () => {
+    toast.error('Please check your credentials', {
+      position: 'bottom-right',
+      autoClose: 3000,
+    }); 
   };
 
   return (
@@ -78,7 +87,8 @@ function Login() {
               </tr>
             </table>
         </form>
-        </div>        
+        </div>      
+        <ToastContainer />  
     </div>
 
   );

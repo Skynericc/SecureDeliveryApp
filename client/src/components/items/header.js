@@ -4,7 +4,6 @@ function Header({onLogout}) {
     const navigate = useNavigate();
     const handleLogoutClick = () => {
       localStorage.removeItem("user");
-      navigate('/login'); 
       window.location.reload();
     };
     return (

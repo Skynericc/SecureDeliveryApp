@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../css/dashboard.css';
+
 function Dashboard({onLogout}) {
   const user=JSON.parse(localStorage.getItem('user'));
   const [products, setProducts] = useState([]);
+  const [address, setAddress] = useState(null);
+  const [readyToBuy, setReadyToBuy] = useState(false);
+
+  const handleAddressChange = (e) => {
+    const addressPattern = /^[0-9]+\s[a-zA-Z\s]+$/;
+    if(e.target.value && e.target.value!='' && e.target.value.length>6 && addressPattern.test(e.target.value)) setReadyToBuy(true)
+    else setReadyToBuy(false)
+    setAddress(e.target.value);
+  };
 
   useEffect(() => {
     // Fetch products from API
+    if(user)
     axios.get('http://localhost:3000/product?token='+user.token)
       .then((response) => {
         // Set the products in the state
@@ -43,7 +56,41 @@ function Dashboard({onLogout}) {
       setTotal(total - (targetProduct.prix * targetProduct.quantity));
     };
 
+    const handlePorceedToBuy= ()=>{
+      const transformedProducts = selectedProducts.map((product) => ({
+        produit: product.id,
+        quantite: product.quantity,
+      }));
 
+      axios.post('http://localhost:3000/command', {
+        "utilisateur": "651ec04384dc0189c8167748",
+        "produits": transformedProducts,
+        "totalPrice": total,
+      })
+      .then(response => {
+        showSnackbar(true);
+      })
+      .catch(error => {
+        showSnackbar(false);
+      });
+    }
+
+    const showSnackbar = (success) => {
+      if(success){
+        toast.success('command saved successfuly', {
+          position: 'bottom-right',
+          autoClose: 3000,
+        });        
+      }
+      else{
+        toast.error('something went wrong', {
+          position: 'bottom-right',
+          autoClose: 3000,
+        }); 
+      }
+
+    };
+  
   return (
     <div>
       <Header onLogout={onLogout}></Header>
@@ -57,8 +104,8 @@ function Dashboard({onLogout}) {
         <div className="sidebar">
           <h2>Order Information</h2>
           {/* put the code to display the prodect that has been chosen and also the final price ... */}
-          <p>Client : {user.nomComplet}</p>
-          <p>Email : {user.email}</p>
+          <p>Client : { user? user.nomComplet: ''}</p>
+          <p>Email : { user? user.email: ''}</p>
           {
             selectedProducts.length!==0?          
             <>
@@ -86,13 +133,30 @@ function Dashboard({onLogout}) {
                 </tfoot>
               </table>
               <br />
-              <button>Poceed To Buy</button>
+              <table width="100%">
+                <tr>
+                  <td align='left'>
+                    Delivery address :
+                  </td>
+                  <td align='right'>
+                  <input
+                    type="text"
+                    id="user-address"
+                    value={address}
+                    onChange={handleAddressChange}
+                    required/>                    
+                  </td>
+                </tr>
+              </table>
+              <br/>
+              {readyToBuy? <button onClick={handlePorceedToBuy}>Poceed To Buy</button>: ''}
               </>
               :
               <></>
           }
 
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
