@@ -36,7 +36,8 @@ const login = async (req, res, next) => {
     const nom = user.nom;
     const prenom = user.prenom;
     const nomComplet = nom + " " + prenom;
-    res.status(200).json({ token, email, nomComplet });
+    const id=user._id;
+    res.status(200).json({ token, email, nomComplet, id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erreur d\'authentification' });

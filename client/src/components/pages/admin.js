@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '../items/header.js';
 import '../../css/admin.css';
 import CommandCard from '../items/command.js';
-function Admin({onLogout}) {
+import { useNavigate } from 'react-router-dom';
+
+function Admin() {
   const [commands, setCommands] = useState([]);
   const [userMap, setUserMap] = useState(new Map());
   const [filteredCommands, setFilteredCommands] = useState([]);
@@ -56,11 +57,29 @@ function Admin({onLogout}) {
     const updatedCommands = commands.filter((command) => command._id !== commandId);
     setCommands(updatedCommands);
   };
+  const navigate = useNavigate();
+  const handleLogoutClick = () => {
+    navigate('/login');
+  };
 
   return (
     <div>
-      <Header onLogout={onLogout}></Header>
-      <div className="command-list">
+        <div className='header'>
+        <table width='100%'>
+          <tr>
+            <td align='left'>
+              <span className='header-span'>Welcome to Jumia France</span>
+            </td>
+            <td align='right' width='100px'>
+              <button className='header-button'onClick={handleLogoutClick}>Logout</button>
+            </td>
+            <td align='right' width='70px'>
+              <button className='header-button'>Help</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div className="commands-container">
         {filteredCommands.map((command) => (
           <CommandCard
             key={command._id}

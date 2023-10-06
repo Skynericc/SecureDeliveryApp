@@ -59,12 +59,15 @@ function Dashboard({onLogout}) {
     const handlePorceedToBuy= ()=>{
       const transformedProducts = selectedProducts.map((product) => ({
         produit: product.id,
+        titre: product.title,
         quantite: product.quantity,
       }));
 
+      if(user)
       axios.post('http://localhost:3000/command', {
-        "utilisateur": "651ec04384dc0189c8167748",
+        "utilisateur": user.id,
         "produits": transformedProducts,
+        "adresse":address,
         "totalPrice": total,
       })
       .then(response => {
