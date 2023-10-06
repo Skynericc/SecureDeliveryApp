@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../css/command.css';
 
 function CommandCard({ clientName, clientAddress, products, totalPrice, command, onDeleteCommand }) {
+  const showSnackbar = (success) => {
+    if(success){
+      toast.success('command validated successfuly', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      });        
+    }
+    else{
+      toast.error('something went wrong', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      }); 
+    }
+  };
+
   const handleConfirmCommand = () => {
     // Send a PATCH request to confirm the command
     axios
@@ -11,11 +28,12 @@ function CommandCard({ clientName, clientAddress, products, totalPrice, command,
         // Check if the PATCH request was successful (you might want to add error handling)
         if (response.status === 200) {
           // Call the onDeleteCommand function to remove the command from the UI
+          showSnackbar(true);
           onDeleteCommand(command._id);
         }
       })
       .catch((error) => {
-        console.error('Error confirming command:', error);
+        showSnackbar(false);
       });
   };
 
@@ -41,12 +59,13 @@ function CommandCard({ clientName, clientAddress, products, totalPrice, command,
           </ul>
         </div>
         <div className="total-price">
-          <p><strong>Total Price:</strong> ${totalPrice}</p>
+          <p><strong>Total Price:</strong> ${parseFloat(totalPrice).toFixed(2)}</p>
         </div>
         <div className="Valider-la-commande">
-              <button className="valider-button" onClick={handleConfirmCommand}>Valider la commande</button>
+              <button className="valider-button" onClick={handleConfirmCommand}>Accept</button>
         </div>
       </div>
+      <ToastContainer /> 
     </div>
   );
 }
