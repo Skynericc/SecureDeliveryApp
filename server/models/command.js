@@ -14,6 +14,10 @@ const commandSchema = new Schema({
 			type: String,
 			required: true,
 		},
+		titre: {
+			type : String,
+			required: true,
+		},
 		quantite: {
 			type: String,
 			required: true,
@@ -25,6 +29,9 @@ const commandSchema = new Schema({
     	default: false,
 	},
 	adresse:{
+		type: String
+	},
+	totalPrice:{
 		type: String
 	}
 });

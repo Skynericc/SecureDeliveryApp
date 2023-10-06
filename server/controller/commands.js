@@ -4,7 +4,7 @@ const Product = require('../models/product').productModel;
 
 const createCommand = async (req, res, next) => {
     try {
-      const { utilisateur, produits, estValide, adresse } = req.body;
+      const { utilisateur, produits, estValide, adresse, totalPrice } = req.body;
       // Check if the products exist by their IDs
       const productIds = produits.map((product) =>
       new mongoose.Types.ObjectId(product.produit));
@@ -22,13 +22,15 @@ const createCommand = async (req, res, next) => {
       // Create a new command with the user ID and product references
       const newCommand = new Command({
         _id: new mongoose.Types.ObjectId(),
-        utilisateur, // Utilisez l'ID de l'utilisateur directement
+        utilisateur,
         produits: produits.map((product) => ({
-          produit: product.produit, // ID du produit sous forme de chaîne
+          produit: product.produit, // ID du produit
+          titre: product.titre, //titre du produit
           quantite: product.quantite, // Quantité demandée
         })),
-        estValide: estValide || false, // Utilisez la valeur estValide de la requête ou la valeur par défaut
-        adresse 
+        estValide: estValide || false, // La valeur estValide de la requête ou la valeur par défaut(false)
+        adresse,
+        totalPrice 
       });
   
       // Save the new command to the database
