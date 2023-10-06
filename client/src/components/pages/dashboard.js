@@ -20,7 +20,7 @@ function Dashboard({onLogout}) {
   };
 
   useEffect(() => {
-    // Fetch products from API
+    // Fetch the list of products from API
     if(user)
     axios.get('http://localhost:3000/product?token='+user.token)
       .then((response) => {
@@ -64,7 +64,7 @@ function Dashboard({onLogout}) {
       }));
 
       if(user)
-      axios.post('http://localhost:3000/command', {
+      axios.post('http://localhost:3000/command?token='+user.token, {
         "utilisateur": user.id,
         "produits": transformedProducts,
         "adresse":address,
@@ -106,7 +106,6 @@ function Dashboard({onLogout}) {
         </div>
         <div className="sidebar">
           <h2>Order Information</h2>
-          {/* put the code to display the prodect that has been chosen and also the final price ... */}
           <p>Client : { user? user.nomComplet: ''}</p>
           <p>Email : { user? user.email: ''}</p>
           {

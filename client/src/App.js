@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/login" element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Login/>} />
           <Route path="/dashboard" element={isAuthenticated() ? <Dashboard onLogout={handleLogout}/> : <Navigate to="/login" />} />
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/admin" element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Admin/>}/>
           <Route index element={<Navigate to="/login" />} />
         </Routes>
       </div>

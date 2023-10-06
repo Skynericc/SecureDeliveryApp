@@ -36,7 +36,7 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
     <div className="product-widget">
       <h2>{titre}</h2>
       <p className="desc">{desc}</p>
-      <p className="prix">prix: ${prix}</p>
+      <p className="prix">Price: ${prix}</p>
       <label htmlFor="quantity">Quantity:</label>
       <input
         type="number"
