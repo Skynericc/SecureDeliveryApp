@@ -52,7 +52,7 @@ const getAllProducts = (req, res, next) => {
 		// Now you can use the userId to fetch user-specific data or proceed as needed
 	
 		// Retrieve all products from Mongo or fetch user-specific data
-		Product.find({})
+		Product.find({ quant: { $gt: 0 } })
 		  .then((products) => {
 			res.format({
 			  json: () => {

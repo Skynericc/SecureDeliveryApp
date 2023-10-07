@@ -14,7 +14,7 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
   };
 
   const { _id, titre, desc, prix,quant} = product;
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const handleQuantityChange = (event) => {
@@ -43,7 +43,7 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
         id="quantity"
         value={quantity}
         onChange={handleQuantityChange}
-        min="0"
+        min="1"
         max={quant}
         disabled={isAddingToCart}
       />
