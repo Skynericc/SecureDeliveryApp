@@ -34,6 +34,12 @@
     padding: 4px;
     margin-bottom: 8px;
   }
+
+  #quantity{
+    padding: 13px;
+    margin-bottom: 0px;
+    width: 35px;
+  }
   
   .total-price-product {
     font-size: 1.25rem;
@@ -47,4 +53,12 @@
 
   .red-button:hover{
     background-color: darkred;
+  }
+
+  .control-quantity{
+    padding: 1px 5px;
+    background-color: transparent;
+    color: black;
+    font-weight: bolder;
+    font-size: 17px;
   }

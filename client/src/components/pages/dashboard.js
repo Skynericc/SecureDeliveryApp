@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductWidget from '../items/product-widget.js';
 import Header from '../items/header.js';
+import NoProductCard from '../items/no-product.js';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../css/dashboard.css';
@@ -97,13 +98,17 @@ function Dashboard({onLogout}) {
   return (
     <div>
       <Header onLogout={onLogout}></Header>
+      
+      { products.length==0? <div className='client-page'><NoProductCard></NoProductCard></div>:
       <div className='dashboard-container'>
+        
         <div className='products-container'>
-          {products.map((product) => (
-            <ProductWidget key={product._id} product={product} addProductToDashboard={handleAddProduct} 
-            removeProductFromDashboard={handleRemoveProduct} />
-          ))}
-        </div>
+        {products.map((product) => (
+          <ProductWidget key={product._id} product={product} addProductToDashboard={handleAddProduct} 
+          removeProductFromDashboard={handleRemoveProduct} />
+        ))}
+      </div>
+  
         <div className="sidebar">
           <h2>Order Information</h2>
           <p>Client : { user? user.nomComplet: ''}</p>
@@ -160,6 +165,7 @@ function Dashboard({onLogout}) {
         </div>
         <ToastContainer />
       </div>
+      }
     </div>
   );
 }

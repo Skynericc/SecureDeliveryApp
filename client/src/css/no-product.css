@@ -1,0 +1,29 @@
+.no-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin: 20px;
+  }
+  
+  .icon {
+    color: #009688; /* Icon color */
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+    color: #333; /* Text color */
+  }
+  
+  .message p {
+    margin-left: 10px;
+    font-size: 18px; /* Adjust font size as needed */
+  }
+  

@@ -13,10 +13,10 @@
   
   /* Style for the header of the command card */
   .command-card-header {
-    background-color: black;
-    color: #fff;
     text-align: center;
-    padding: 5px;
+    padding: 10px;
+    font-weight: bolder;
+    font-size: 17px;
   }
   
   /* Style for the content of the command card */

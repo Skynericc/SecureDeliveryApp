@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../css/admin.css';
+import { toast, ToastContainer } from 'react-toastify';
+import NoCommandCard from '../items/no-command.js';
+import 'react-toastify/dist/ReactToastify.css';
 import CommandCard from '../items/command.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,6 +65,21 @@ function Admin() {
     navigate('/login');
   };
 
+  const showSnackbar = (success) => {
+    if(success){
+      toast.success('command validated successfuly', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      });        
+    }
+    else{
+      toast.error('something went wrong', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      }); 
+    }
+  };
+
   return (
     <div>
         <div className='header'>
@@ -79,7 +97,10 @@ function Admin() {
           </tr>
         </table>
       </div>
-      <div className="commands-container">
+      <div className='command-page'>
+        {
+          filteredCommands.length==0? <NoCommandCard></NoCommandCard>:
+        <div className="commands-container">
         {filteredCommands.map((command) => (
           <CommandCard
             key={command._id}
@@ -91,9 +112,13 @@ function Admin() {
             totalPrice={command.totalPrice}
             command={command}
             onDeleteCommand={handleDeleteCommand}
+            showSnackbar={showSnackbar}
           />
         ))}
       </div>
+      }
+      </div>
+      <ToastContainer /> 
     </div>
   );
 }

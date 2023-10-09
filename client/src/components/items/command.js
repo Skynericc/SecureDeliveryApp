@@ -1,24 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import '../../css/command.css';
 
-function CommandCard({ clientName, clientAddress, products, totalPrice, command, onDeleteCommand }) {
-  const showSnackbar = (success) => {
-    if(success){
-      toast.success('command validated successfuly', {
-        position: 'bottom-right',
-        autoClose: 3000,
-      });        
-    }
-    else{
-      toast.error('something went wrong', {
-        position: 'bottom-right',
-        autoClose: 3000,
-      }); 
-    }
-  };
+function CommandCard({ clientName, clientAddress, products, totalPrice, command, onDeleteCommand, showSnackbar }) {
 
   const handleConfirmCommand = () => {
     // Send a PATCH request to confirm the command
@@ -40,7 +23,7 @@ function CommandCard({ clientName, clientAddress, products, totalPrice, command,
   return (
     <div className="command-card">
       <div className="command-card-header">
-        <h3>Order Details</h3>
+        <span>------- Order Details -------</span>
       </div>
       <div className="command-card-content">
         <div className="client-info">
@@ -65,7 +48,6 @@ function CommandCard({ clientName, clientAddress, products, totalPrice, command,
               <button className="valider-button" onClick={handleConfirmCommand}>Accept</button>
         </div>
       </div>
-      <ToastContainer /> 
     </div>
   );
 }

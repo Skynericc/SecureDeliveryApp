@@ -17,6 +17,18 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
+  const incrementQuantity = () => {
+    if(quantity<quant)
+    setQuantity(quantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+
   const handleQuantityChange = (event) => {
     const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
@@ -38,15 +50,44 @@ function ProductWidget({product, addProductToDashboard, removeProductFromDashboa
       <p className="desc">{desc}</p>
       <p className="prix">Price: ${prix}</p>
       <label htmlFor="quantity">Quantity:</label>
-      <input
-        type="number"
-        id="quantity"
-        value={quantity}
-        onChange={handleQuantityChange}
-        min="1"
-        max={quant}
-        disabled={isAddingToCart}
-      />
+      <table align='center'>
+        <tr>
+          <td></td>
+          <td rowSpan='2'>
+            <input
+                type="number"
+                id="quantity"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+                max={quant}
+                disabled={isAddingToCart}
+                readOnly
+                />
+          </td>
+
+          <td>
+          {
+          !isAddingToCart ? 
+          (<button onClick={incrementQuantity} disabled={isAddingToCart} className='control-quantity'>+</button>)
+          :(<></>)
+          }
+          </td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>
+            {
+          !isAddingToCart ? 
+          (<button onClick={decrementQuantity} disabled={isAddingToCart} className='control-quantity'>-</button>)
+          :(<></>)
+          }
+          </td>
+          </tr>
+      </table>
+      
+      
+      
       <p className="total-price-product">Total: ${(prix * quantity).toFixed(2)}</p>
       {
         isAddingToCart ? ( <button onClick={handleRemoveFromCart} className='red-button'>Remove</button>) 
