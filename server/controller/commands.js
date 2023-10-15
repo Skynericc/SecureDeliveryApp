@@ -27,14 +27,14 @@ const createCommand = async (req, res, next) => {
     });
 
     if (existingProducts.length !== productIds.length) {
-      // Some product IDs provided in the request do not exist
+      // If some product IDs provided in the request do not exist
       return res.status(400).json({ error: 'One or more products do not exist' });
     }
 
     // Create a new command with the user ID and product references
     const newCommand = new Command({
       _id: new mongoose.Types.ObjectId(),
-      utilisateur,
+      utilisateur, // User ID
       produits: produits.map((product) => ({
         produit: product.produit, // Product ID
         titre: product.titre, // Product title
@@ -48,7 +48,7 @@ const createCommand = async (req, res, next) => {
     // Save the new command to the database
     const command = await newCommand.save();
 
-    // Send a response indicating the command was created successfully
+    // Send a response indicating that the command was created successfully
     res.status(201).json(command);
   });
   } catch (error) {
@@ -58,6 +58,7 @@ const createCommand = async (req, res, next) => {
   }
 };
 
+// Get a specific command by it's ID
 const getCommandById = (req, res, next) => {
   Command.findById(req.params.id).then((command) => {
 		console.log('GET Retrieved ID: ' + command._id);
@@ -72,8 +73,9 @@ const getCommandById = (req, res, next) => {
 	});
 };
 
+// Retrieve all commands
 const getAllCommands = (_req, res, next) => {
-	// Retrieve all products from Mongo
+	// Retrieve all products from the Database
 	Command.find({}).then((commands) => {
 		res.format({
 			// JSON response will show all users in JSON format
@@ -87,11 +89,12 @@ const getAllCommands = (_req, res, next) => {
 	});
 };
 
+// Validate the command (by Admin)
 const confirmCommand = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    // Recherchez la commande par son ID
+    // Get the command by the ID
     const commande = await Command.findById(id);
 
     if (!commande) {
@@ -103,7 +106,7 @@ const confirmCommand = async (req, res, next) => {
     }
 
 
-    // Mettez à jour les quantités des produits dans la base de données
+    // Check if there is some invalid products that the command could not validate
     const invalidProducts = await Promise.all(
       commande.produits.map(async (produit) => {
         const product = await Product.findById(produit.produit);
@@ -112,7 +115,7 @@ const confirmCommand = async (req, res, next) => {
           return res.status(404).json({ error: 'Produit introuvable' });
         }
 
-        if (produit.quantite > product.quant) {
+        if (parseInt(produit.quantite) > parseInt(product.quant)) {
           return product.titre; // Return the title of the invalid product
         }
 
@@ -123,6 +126,7 @@ const confirmCommand = async (req, res, next) => {
     // Filter out null values (valid products) from the array of invalid products
     const invalidProductNames = invalidProducts.filter((productName) => productName !== null);
 
+    console.log(invalidProductNames);
     if (invalidProductNames.length > 0) {
       // There are invalid products in the command
       return res.status(400).json({
@@ -146,7 +150,7 @@ const confirmCommand = async (req, res, next) => {
     })
   );
 
-    // Mettre à jour la commande pour la marquer comme valide
+    // Update the command by updating the estValide value to true
     commande.estValide = true;
     await commande.save();
     res.status(200).json({ message: 'Commande confirmée avec succès' });
@@ -161,7 +165,7 @@ const updateCommand = async (req, res, next) => {
   const updatedCommandData = req.body;
 
   try {
-    // Recherchez la commande par son ID
+    // Rechercher la commande par son ID
     const commande = await Command.findById(id);
 
     if (!commande) {
@@ -172,13 +176,13 @@ const updateCommand = async (req, res, next) => {
       return res.status(400).json({ error: 'La commande validée ne peut pas être mise à jour' });
     }
 
-    // Mettez à jour les données de la commande avec les nouvelles données
+    // Mettre à jour les données de la commande avec les nouvelles données
     Object.assign(commande, updatedCommandData);
 
-    // Enregistrez la commande mise à jour dans la base de données
+    // Enregistrer la commande mise à jour dans la base de données
     const updatedCommande = await commande.save();
 
-    // Envoyez une réponse avec la commande mise à jour
+    // Envoyer une réponse avec la commande mise à jour
     res.status(200).json(updatedCommande);
   } catch (error) {
     console.error(error);

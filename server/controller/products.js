@@ -51,7 +51,7 @@ const getAllProducts = (req, res, next) => {
 	
 		// Now you can use the userId to fetch user-specific data or proceed as needed
 	
-		// Retrieve all products from Mongo or fetch user-specific data
+		// Retrieve all products from DB or fetch user-specific data
 		Product.find({ quant: { $gt: 0 } })
 		  .then((products) => {
 			res.format({
@@ -66,4 +66,13 @@ const getAllProducts = (req, res, next) => {
 	  });
 };
 
-module.exports = { createProduct, getProductById, getAllProducts };
+const deleteAllProducts = async (req, res, next) => {
+	try {
+	  await Product.deleteMany({});
+	  res.status(204).send();
+	} catch (error) {
+	  next(error);
+	}
+};
+
+module.exports = { createProduct, getProductById, getAllProducts, deleteAllProducts };

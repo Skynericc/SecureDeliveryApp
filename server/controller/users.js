@@ -44,4 +44,13 @@ const getAllUsers = (_req, res, next) => {
 	});
 };
 
-module.exports = { createUser, getUserById, getAllUsers };
+const deleteAllUsers = async (req, res, next) => {
+	try {
+	  await User.deleteMany({});
+	  res.status(204).send();
+	} catch (error) {
+	  next(error);
+	}
+  };
+
+module.exports = { createUser, getUserById, getAllUsers, deleteAllUsers };

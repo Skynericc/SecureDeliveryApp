@@ -37,63 +37,63 @@ function Dashboard({onLogout}) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [total, setTotal] = useState(0);
 
-    // Function to receive data from the child
-    const handleAddProduct = (data) => {
-      const newItem = {
-        id: data._id,
-        prix: data.prix,
-        title: data.titre,
-        quantity: data.quantity,
-      };
-      setSelectedProducts([...selectedProducts, newItem]);
-
-      setTotal(total + (data.prix * data.quantity));
+  // Function to receive data from the child
+  const handleAddProduct = (data) => {
+    const newItem = {
+      id: data._id,
+      prix: data.prix,
+      title: data.titre,
+      quantity: data.quantity,
     };
+    setSelectedProducts([...selectedProducts, newItem]);
+
+    setTotal(total + (data.prix * data.quantity));
+  };
   
-    const handleRemoveProduct = (_id) => {
-      const targetProduct = selectedProducts.find((product) => product.id === _id);
-      const updatedList = selectedProducts.filter((item) => item.id !== _id);
-      setSelectedProducts(updatedList);
-      setTotal(total - (targetProduct.prix * targetProduct.quantity));
-    };
+  const handleRemoveProduct = (_id) => {
+    const targetProduct = selectedProducts.find((product) => product.id === _id);
+    const updatedList = selectedProducts.filter((item) => item.id !== _id);
+    setSelectedProducts(updatedList);
+    setTotal(total - (targetProduct.prix * targetProduct.quantity));
+  };
 
-    const handlePorceedToBuy= ()=>{
-      const transformedProducts = selectedProducts.map((product) => ({
-        produit: product.id,
-        titre: product.title,
-        quantite: product.quantity,
-      }));
+  const handlePorceedToBuy= ()=>{
+    const transformedProducts = selectedProducts.map((product) => ({
+      produit: product.id,
+      titre: product.title,
+      quantite: product.quantity,
+  }));
 
-      if(user)
-      axios.post('http://localhost:3000/command?token='+user.token, {
-        "utilisateur": user.id,
-        "produits": transformedProducts,
-        "adresse":address,
-        "totalPrice": total,
-      })
-      .then(response => {
-        showSnackbar(true);
-      })
-      .catch(error => {
-        showSnackbar(false);
-      });
+    if(user)
+    axios.post('http://localhost:3000/command?token='+user.token, {
+      "utilisateur": user.id,
+      "produits": transformedProducts,
+      "adresse":address,
+      "totalPrice": total,
+    })
+    .then(response => {
+      showSnackbar(true);
+    })
+    .catch(error => {
+      showSnackbar(false);
+    });
+  }
+
+  const showSnackbar = (success) => {
+    if(success){
+      toast.success('command saved successfuly', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      });        
+    }
+    else{
+      toast.error('something went wrong', {
+        position: 'bottom-right',
+        autoClose: 3000,
+      }); 
     }
 
-    const showSnackbar = (success) => {
-      if(success){
-        toast.success('command saved successfuly', {
-          position: 'bottom-right',
-          autoClose: 3000,
-        });        
-      }
-      else{
-        toast.error('something went wrong', {
-          position: 'bottom-right',
-          autoClose: 3000,
-        }); 
-      }
-
-    };
+  };
   
   return (
     <div>

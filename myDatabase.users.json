@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "652c4278ee073f1e0b2c9df0"
+  },
+  "nom": "Hilali",
+  "prenom": "Yahya",
+  "email": "yahya@gmail.com",
+  "mdp": "$2a$08$viao7Ya..ctlf/4uPsd/k.YhFfi9Vrz4XxbVcG5U2cIaYLuOTsggW",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c4283ee073f1e0b2c9df2"
+  },
+  "nom": "Benkhaldoun",
+  "prenom": "Driss",
+  "email": "driss@gmail.com",
+  "mdp": "$2a$08$IPl42MxMs1fPUZ0b1kk.kO3QNlRoWY.OMrmLaKepNyDLYOEWl5gAG",
+  "__v": 0
+}]

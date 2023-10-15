@@ -22,12 +22,14 @@ function Admin() {
         console.error('Error fetching commands:', error);
       });
   }, []);
-
+  
   useEffect(() => {
     // Filter the commands to include only those with estValide set to false
     const filtered = commands.filter((command) => !command.estValide);
     setFilteredCommands(filtered);
+  }, [commands]);
 
+  useEffect(() => {
     // Fetch user details for each command and store them in a map
     const fetchUserDetails = async () => {
       const userMapCopy = new Map();
@@ -53,7 +55,7 @@ function Admin() {
     };
 
     fetchUserDetails();
-  }, [commands]);
+  }, [filteredCommands]);
 
   const handleDeleteCommand = (commandId) => {
     // Remove the command from the list of commands in the state

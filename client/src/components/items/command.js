@@ -8,7 +8,7 @@ function CommandCard({ clientName, clientAddress, products, totalPrice, command,
     axios
       .patch(`http://localhost:3000/command/${command._id}/confirm`)
       .then((response) => {
-        // Check if the PATCH request was successful (you might want to add error handling)
+        // Check if the PATCH request was successful
         if (response.status === 200) {
           // Call the onDeleteCommand function to remove the command from the UI
           showSnackbar(true);

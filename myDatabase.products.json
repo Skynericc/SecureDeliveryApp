@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "652c430bee073f1e0b2c9df4"
+  },
+  "titre": "Harira ",
+  "desc": "Soupe épaisse aux légumes, viande et herbes aromatiques.",
+  "prix": "3",
+  "quant": "13",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c4321ee073f1e0b2c9df6"
+  },
+  "titre": "Pastilla",
+  "desc": "Tourte sucrée-salée au pigeon et aux amandes.",
+  "prix": "8",
+  "quant": "20",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c4337ee073f1e0b2c9df8"
+  },
+  "titre": "Bissara",
+  "desc": "Purée de fèves savoureuse garnie d'huile d'olive.",
+  "prix": "2",
+  "quant": "15",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c434bee073f1e0b2c9dfa"
+  },
+  "titre": "Tajine",
+  "desc": "Tajine d'agneau aux épices, raisins secs et amandes.",
+  "prix": "10",
+  "quant": "15",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c4365ee073f1e0b2c9dfc"
+  },
+  "titre": "Couscous",
+  "desc": "Semoule légère accompagnée de légumes et viande parfumée.",
+  "prix": "12",
+  "quant": "27",
+  "__v": 0
+}]
